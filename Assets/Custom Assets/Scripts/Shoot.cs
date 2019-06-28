@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shoot : MonoBehaviour
-{
+public class Shoot : MonoBehaviour {
     Transform cameraTransform;
+    GameObject currentTeleporter;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         cameraTransform = Camera.main.transform;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (Input.GetMouseButtonDown(0)) {
             ShootBeam();
+        }
+        else if (Input.GetMouseButtonDown(1)) {
+            Teleport();
         }
     }
 
@@ -25,9 +26,9 @@ public class Shoot : MonoBehaviour
 
         RaycastHit hit;
 
-        if(Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit)) {
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit)) {
             end = hit.point;
-            if(hit.transform.tag == "teleporter") {
+            if (hit.transform.tag == "teleporter") {
                 CreateTeleporter(hit.point);
             }
         }
@@ -41,6 +42,19 @@ public class Shoot : MonoBehaviour
 
     private void CreateTeleporter(Vector3 position) {
         GameObject teleporter = Resources.Load("teleporter") as GameObject;
-        Instantiate(teleporter, position, Quaternion.identity);
+
+        if (currentTeleporter) {
+            Destroy(currentTeleporter);
+        }
+        currentTeleporter = Instantiate(teleporter, position, Quaternion.identity);
+    }
+
+    private void Teleport() {
+        if (currentTeleporter) {
+            Vector3 position = currentTeleporter.transform.position;
+            Destroy(currentTeleporter);
+            currentTeleporter = null;
+            transform.position = position;
+        }
     }
 }
