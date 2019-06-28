@@ -20,9 +20,14 @@ public class Shoot : MonoBehaviour
     }
 
     private void ShootBeam() {
-        Vector3 start = cameraTransform.position + cameraTransform.right * 0.1f;
+        Vector3 start = cameraTransform.position + cameraTransform.right * 0.01f;
         Vector3 end = cameraTransform.position + cameraTransform.forward * 100;
 
+        RaycastHit hit;
+
+        if(Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit)) {
+            end = hit.point;
+        }
         GameObject resource = Resources.Load("beam") as GameObject;
         BeamManager beam = resource.GetComponent<BeamManager>();
         beam.start = start;

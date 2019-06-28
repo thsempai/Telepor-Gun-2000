@@ -139,6 +139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e2e9f8882fc4c54eb248163603f4158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 10
+  time: 0.5
   start: {x: 0, y: 0, z: 0}
   end: {x: 0, y: 0, z: 0}
