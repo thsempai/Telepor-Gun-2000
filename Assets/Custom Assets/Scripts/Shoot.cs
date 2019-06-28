@@ -27,6 +27,9 @@ public class Shoot : MonoBehaviour
 
         if(Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit)) {
             end = hit.point;
+            if(hit.transform.tag == "teleporter") {
+                CreateTeleporter(hit.point);
+            }
         }
         GameObject resource = Resources.Load("beam") as GameObject;
         BeamManager beam = resource.GetComponent<BeamManager>();
@@ -34,5 +37,10 @@ public class Shoot : MonoBehaviour
         beam.end = end;
 
         Instantiate(resource);
+    }
+
+    private void CreateTeleporter(Vector3 position) {
+        GameObject teleporter = Resources.Load("teleporter") as GameObject;
+        Instantiate(teleporter, position, Quaternion.identity);
     }
 }
